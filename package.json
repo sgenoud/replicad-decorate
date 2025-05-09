@@ -1,16 +1,20 @@
 {
   "name": "replicad-decorate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helper functions to decorate faces",
   "author": "Steve Genoud <steve@sgenoud.com>",
   "homepage": "https://github.com/sgenoud/replicad-decorate",
   "license": "AGPL-3.0-or-later",
   "private": false,
   "files": [
+    "package.json",
     "dist"
   ],
   "module": "dist/es/replicad-decorate.js",
   "type": "module",
+  "scripts": {
+    "build": "rollup -c"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
@@ -20,7 +24,7 @@
     "rollup-plugin-replace-imports-with-vars": "^1.1.0"
   },
   "peerDependencies": {
-    "replicad": "^0.14.3"
+    "replicad": ">0.14.3"
   },
   "dependencies": {
     "d3-delaunay": "^6.0.2",

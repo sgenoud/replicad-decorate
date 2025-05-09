@@ -1,4 +1,4 @@
-import {  GCWithScope, getOC, drawFaceOutline } from "replicad";
+import { GCWithScope, getOC, drawFaceOutline } from "replicad";
 
 export const range = (size) => [...Array(size).keys()];
 
@@ -77,7 +77,15 @@ export const drawFaceMargin = (face, margin) => {
   return outline;
 };
 
-export const addPatternToShape = (shape, face, pattern, depth, margin) => {
+export const addPatternToShape = (
+  shape,
+  face,
+  pattern,
+  depth,
+  margin,
+  mirrorY = false,
+  disableCut = false
+) => {
   const { vLen, uLen, uMin, vMin, width, height } = faceSize(face);
 
   const yScaleFactor = vLen / height;
@@ -93,10 +101,18 @@ export const addPatternToShape = (shape, face, pattern, depth, margin) => {
   }
   pattern = pattern.translate([uMin, vMin]);
 
-  const cutPattern = outline.intersect(pattern);
-  const cleanedPattern = cutPattern.sketchOnFace(face, "native").extrude(depth);
+  if (mirrorY) {
+    pattern = pattern.mirror([0, 1]);
+  }
+
+  if (!disableCut) {
+    pattern = pattern.intersect(outline);
+  }
+  const cleanedPattern = pattern.sketchOnFace(face, "native").extrude(depth);
 
   const newShape =
-    depth > 0 ? shape.clone().fuse(cleanedPattern) : shape.clone().cut(cleanedPattern);
+    depth > 0
+      ? shape.clone().fuse(cleanedPattern)
+      : shape.clone().cut(cleanedPattern);
   return newShape;
 };

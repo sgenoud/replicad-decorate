@@ -4,7 +4,17 @@ import { drawSVG } from "./parseSVG";
 
 export async function addSVG(
   shape,
-  { faceIndex, depth, svgString, width = 60, angle = 0, xShift = 0, yShift = 0 }
+  {
+    faceIndex,
+    depth,
+    svgString,
+    width = 60,
+    angle = 0,
+    xShift = 0,
+    yShift = 0,
+    mirrorY = true,
+    disableCut = true,
+  }
 ) {
   const face = shape.faces[faceIndex];
 
@@ -20,5 +30,5 @@ export async function addSVG(
   const { width: faceWidth, height: faceHeight } = faceSize(face);
   image = image.translate(faceWidth / 2, faceHeight / 2);
 
-  return addPatternToShape(shape, face, image, depth, 1);
+  return addPatternToShape(shape, face, image, depth, 1, mirrorY, disableCut);
 }
