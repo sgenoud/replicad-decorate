@@ -127,6 +127,11 @@ const parseArgs = (command, previousPoint, previousControls) => {
         pp[1] + (pp[1] - previousControls.control1[1]),
       ];
     }
+
+    return {
+      p,
+      control1,
+    };
   }
 
   if (command.key === "A") {
@@ -154,6 +159,8 @@ const parseArgs = (command, previousPoint, previousControls) => {
       arcConfig: [a, b, xAxisRotation, !!largeArc, !!sweepFlag],
     };
   }
+
+  throw new Error(`Unknown command ${command.key} ${command.data.join(', ')}`)
 };
 
 export const SVGPathBlueprint = function* (SVGPath) {
