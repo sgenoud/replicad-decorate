@@ -8,7 +8,7 @@ import {
   ellipseBlueprint,
 } from "./svgShapes";
 
-export function drawSVG(svg, { width } = {}) {
+export function drawSVG(svg, { width, forceZ } = {}) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(svg, "text/html");
 
@@ -16,7 +16,7 @@ export function drawSVG(svg, { width } = {}) {
 
   for (let path of Array.from(doc.getElementsByTagName("path"))) {
     let commands = path.getAttribute("d");
-    const pathBlueprints = Array.from(SVGPathBlueprint(commands));
+    const pathBlueprints = Array.from(SVGPathBlueprint(commands, forceZ));
     blueprints.push(...pathBlueprints);
   }
 

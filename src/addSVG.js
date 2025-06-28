@@ -14,11 +14,12 @@ export async function addSVG(
     yShift = 0,
     mirrorY = true,
     disableCut = true,
+    forceZ = false,
   }
 ) {
   const face = shape.faces[faceIndex];
 
-  let image = drawSVG(svgString, { width });
+  let image = drawSVG(svgString, { width, forceZ });
   const imgCenter = image.boundingBox.center;
 
   image = image.translate(-imgCenter[0], -imgCenter[1]);
