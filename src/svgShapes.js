@@ -156,7 +156,7 @@ const parseArgs = (command, previousPoint, previousControls) => {
   }
 };
 
-export const SVGPathBlueprint = function* (SVGPath) {
+export const SVGPathBlueprint = function* (SVGPath, forceZ) {
   const commands = absolutize(parsePath(SVGPath));
 
   let sk = null;
@@ -179,7 +179,11 @@ export const SVGPathBlueprint = function* (SVGPath) {
 
     if (command.key === "M") {
       if (sk) {
-        yield sk.done();
+        if (forceZ) {
+          yield sk.close();
+        } else {
+          yield sk.done();
+        }
       }
 
       sk = new BlueprintSketcher(p);
@@ -218,5 +222,11 @@ export const SVGPathBlueprint = function* (SVGPath) {
     lastControls = { control1, control2 };
   }
 
-  if (sk) yield sk.done();
+  if (sk) {
+    if (forceZ) {
+      yield sk.close();
+    } else {
+      yield sk.done();
+    }
+  }
 };
