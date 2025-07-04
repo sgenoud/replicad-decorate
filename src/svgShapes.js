@@ -160,10 +160,10 @@ const parseArgs = (command, previousPoint, previousControls) => {
     };
   }
 
-  throw new Error(`Unknown command ${command.key} ${command.data.join(', ')}`)
+  throw new Error(`Unknown command ${command.key} ${command.data.join(", ")}`);
 };
 
-export const SVGPathBlueprint = function* (SVGPath, forceZ) {
+export const SVGPathBlueprint = function* (SVGPath, alwaysClosePaths) {
   const commands = absolutize(parsePath(SVGPath));
 
   let sk = null;
@@ -186,7 +186,7 @@ export const SVGPathBlueprint = function* (SVGPath, forceZ) {
 
     if (command.key === "M") {
       if (sk) {
-        if (forceZ) {
+        if (alwaysClosePaths) {
           yield sk.close();
         } else {
           yield sk.done();
@@ -230,7 +230,7 @@ export const SVGPathBlueprint = function* (SVGPath, forceZ) {
   }
 
   if (sk) {
-    if (forceZ) {
+    if (alwaysClosePaths) {
       yield sk.close();
     } else {
       yield sk.done();
